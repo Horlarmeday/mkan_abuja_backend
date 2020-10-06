@@ -61,7 +61,7 @@ server.use((req, res, next) => {
   next();
 });
 
-server.get(/.*/, (req, res) => res.sendFile(`${__dirname}../public/index.html`));
+// server.get(/.*/, (req, res) => res.sendFile(`${__dirname}../public/index.html`));
 
 server.use(error);
 
