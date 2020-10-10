@@ -80,7 +80,11 @@ class UserService {
       return filterUsers(Number(currentPage), Number(pageLimit), filter);
     }
 
-    return getUsers(Number(currentPage), Number(pageLimit));
+    if (Object.values(body).length) {
+      return getUsers(Number(currentPage), Number(pageLimit));
+    }
+
+    return getUsers();
   }
 
   /**
