@@ -16,11 +16,12 @@ module.exports = {
     logging: false,
   },
   production: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    dialect: 'mysql',
-    logging: true,
+    use_env_variable: process.env.DATABASE_URL,
+    // username: process.env.DB_USER,
+    // password: process.env.DB_PASS,
+    // database: process.env.DB_NAME,
+    // host: process.env.DB_HOST,
+    // dialect: 'mysql',
+    // logging: true,
   },
 };
