@@ -239,17 +239,7 @@ export async function maritalStatusAnalytics() {
 export async function cardAnalytics() {
   const khuddamCount = User.count();
 
-  const muqamCount = User.count({
-    where: {
-      [Op.or]: [
-        { muqam: 'Abuja' },
-        { muqam: 'Suleja' },
-        { muqam: 'Gwagwalada' },
-        { muqam: 'Dutse' },
-        { muqam: 'Nassarawa' },
-      ],
-    },
-  });
+  const muqamCount = 5;
 
   const fileCount = File.count();
 
