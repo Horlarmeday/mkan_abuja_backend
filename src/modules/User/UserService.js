@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import {
   createUser,
-  deleteUser,
+  deleteUser, exportAllUsers, exportSelectedUsers,
   filterUsers,
   findUserByKhuddamNo,
   findUserByPhone,
@@ -9,6 +9,7 @@ import {
   getUsers,
   searchUsers,
   updateUser,
+  verifyUserAccount,
 } from './userRepository';
 
 class UserService {
@@ -124,6 +125,38 @@ class UserService {
    */
   static async deleteUserService(body) {
     return deleteUser(body.memberId);
+  }
+
+  /**
+   * verify user account
+   *
+   * @static
+   * @returns {json} json object with user data
+   * @param body
+   * @memberOf UserService
+   */
+  static async verifyUserAccountService(body) {
+    const user = await verifyUserAccount(body);
+
+    if (user) {
+      return user;
+    }
+    throw new Error('You dont have an account, please create one.');
+  }
+
+  /**
+   * export users
+   *
+   * @static
+   * @returns {json} json object with users data
+   * @param body
+   * @memberOf UserService
+   */
+  static async exportUsersService(body = 'All') {
+    if (body === 'All') {
+      return exportAllUsers();
+    }
+    return exportSelectedUsers(body);
   }
 }
 export default UserService;

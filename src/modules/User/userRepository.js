@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize';
+import {Sequelize} from 'sequelize';
 
 const { User, File } = require('../../database/models');
 
@@ -263,4 +263,59 @@ export async function cardAnalytics() {
     file,
     excos,
   };
+}
+
+/**
+ * verify user account in the DB by phone, khuddam Id or surname
+ *
+ * @function
+ * @returns {json} json object with user data
+ * @param search
+ */
+export async function verifyUserAccount(search) {
+  return User.findOne({
+    where: {
+      [Op.or]: [
+        {
+          surname: {
+            [Op.like]: `%${search}%`,
+          },
+        },
+        {
+          khuddam_no: {
+            [Op.like]: `%${search}%`,
+          },
+        },
+        {
+          phone: {
+            [Op.like]: `%${search}%`,
+          },
+        },
+      ],
+    },
+  });
+}
+
+/**
+ * export selected users
+ *
+ * @function
+ * @returns {json} json object with user data
+ * @param data
+ */
+export async function exportSelectedUsers(data) {
+  return User.findAll({
+    order: [['createdAt', 'DESC']],
+    where: { muqam: data },
+  });
+}
+
+/**
+ * export all users
+ *
+ * @function
+ * @returns {json} json object with user data
+ */
+export async function exportAllUsers() {
+  return User.findAll({ order: [['createdAt', 'DESC']] });
 }

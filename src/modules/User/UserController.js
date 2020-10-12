@@ -266,6 +266,49 @@ class UserController {
     }
   }
 
+  /**
+   * verify user account
+   *
+   * @static
+   * @param {object} req express request object
+   * @param {object} res express response object
+   * @param {object} next next middleware
+   * @returns {json} json object with user data
+   */
+  static async verifyAccount(req, res, next) {
+    try {
+      const user = await UserService.verifyUserAccountService(req.body.field);
+
+      return res.status(200).json({
+        message: 'You have an existing account please login!',
+        data: user,
+      });
+    } catch (e) {
+      return next(e);
+    }
+  }
+
+  /**
+   * verify user account
+   *
+   * @static
+   * @param {object} req express request object
+   * @param {object} res express response object
+   * @param {object} next next middleware
+   * @returns {json} json object with user data
+   */
+  static async exportUsers(req, res, next) {
+    try {
+      const users = await UserService.exportUsersService(req.body.muqam);
+
+      return res.status(200).json({
+        message: 'Data retrieved',
+        data: users,
+      });
+    } catch (e) {
+      return next(e);
+    }
+  }
   // static delay() {
   //   return new Promise(resolve => setTimeout(resolve, 300));
   // }
