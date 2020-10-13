@@ -3,7 +3,14 @@ import mime from 'mime';
 import fs from 'fs';
 import _ from 'lodash';
 import { deleteBoxFile, uploadBoxFile } from '../../helpers/box';
-import {deleteFile, deleteMultipleFiles, getFileById, getFiles, searchFiles, uploadFile} from './fileRepository';
+import {
+  deleteFile,
+  deleteMultipleFiles,
+  getFileById,
+  getFiles,
+  searchFiles,
+  uploadFile,
+} from './fileRepository';
 
 class FileService {
   /**
@@ -16,12 +23,19 @@ class FileService {
    */
   static async uploadFileService(body) {
     try {
-      const filepath = `src/public/file${Date.now()}.${mime.getExtension(body.file.mimetype)}`;
+      let filepath;
+      if (process.env.NODE_ENV === 'production') {
+        filepath = `../../helpers/file${Date.now()}.${mime.getExtension(body.file.mimetype)}`;
+      } else {
+        filepath = `src/public/file${Date.now()}.${mime.getExtension(body.file.mimetype)}`;
+      }
+
       await body.file.mv(filepath);
 
       const file = await uploadBoxFile(body.file.name, filepath);
 
       fs.unlinkSync(filepath);
+
       const data = Object.assign(body, { newFile: file.shared_link.url, id: file.id });
       return await uploadFile(data);
     } catch (e) {
