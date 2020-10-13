@@ -25,7 +25,7 @@ class FileService {
     try {
       let filepath;
       if (process.env.NODE_ENV === 'production') {
-        filepath = `../../helpers/file${Date.now()}.${mime.getExtension(body.file.mimetype)}`;
+        filepath = `dist/helpers/file${Date.now()}.${mime.getExtension(body.file.mimetype)}`;
       } else {
         filepath = `src/public/file${Date.now()}.${mime.getExtension(body.file.mimetype)}`;
       }
